@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Registration Portal | ចុះឈ្មោះស្នើសុំប្រាក់កម្ចី</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Kantumruy Pro (Khmer), Khmer Moul Light, Inter (English), Noto Sans SC (Chinese) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kantumruy+Pro:wght@400;500;600;700&family=Khmer+Moul&family=Khmer+Moul+Light&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-blue: #1e40af;
+      --secondary-blue: #3b82f6;
+      --light-bg: #f8fafc;
+    }
+
+    body {
+      font-family: 'Kantumruy Pro', 'Inter', 'Noto Sans SC', sans-serif;
+      background-color: var(--light-bg);
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+
+    .slide-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .slide-item {
+      min-width: 100%;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.35s ease-out forwards;
+    }
+
+    @keyframes successPopBounce {
+      0% {
+        opacity: 0;
+        transform: scale(0.55) translateY(18px);
+      }
+      55% {
+        opacity: 1;
+        transform: scale(1.12) translateY(-6px);
+      }
+      78% {
+        transform: scale(0.96) translateY(2px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes successPulseGlow {
+      0%, 100% {
+        transform: scale(1) translateY(0);
+        text-shadow: 0 3px 12px rgba(5, 150, 105, 0.25);
+      }
+      50% {
+        transform: scale(1.06) translateY(-2px);
+        text-shadow: 0 6px 20px rgba(16, 185, 129, 0.55);
+      }
+    }
+
+    @keyframes successModalCardIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.86) translateY(28px);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.02) translateY(-4px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes techOrbFloat {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(8px, -10px) scale(1.08);
+      }
+    }
+
+    @keyframes techRingSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .success-modal-card {
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.96) 0%, rgba(239, 246, 255, 0.95) 52%, rgba(236, 253, 245, 0.96) 100%);
+      backdrop-filter: blur(22px);
+      border: 1.5px solid rgba(59, 130, 246, 0.24);
+      box-shadow:
+        0 25px 60px -12px rgba(15, 23, 42, 0.32),
+        0 0 0 1px rgba(255, 255, 255, 0.85) inset,
+        0 0 40px rgba(16, 185, 129, 0.14);
+      animation: successModalCardIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .tech-orb {
+      animation: techOrbFloat 5.5s ease-in-out infinite;
+    }
+
+    .success-badge-ring {
+      position: relative;
+      background: linear-gradient(135deg, #059669 0%, #10b981 48%, #2563eb 100%);
+      box-shadow:
+        0 14px 30px -6px rgba(16, 185, 129, 0.5),
+        0 0 0 7px rgba(16, 185, 129, 0.14),
+        0 0 28px rgba(37, 99, 235, 0.25);
+    }
+
+    .success-badge-ring::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      border: 2px dashed rgba(16, 185, 129, 0.55);
+      animation: techRingSpin 9s linear infinite;
+    }
+
+    .success-title-pop {
+      background: linear-gradient(135deg, #065f46 0%, #059669 45%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation:
+        successPopBounce 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+        successPulseGlow 1.5s ease-in-out 0.65s infinite;
+    }
+
+    .tech-cta-btn {
+      background: linear-gradient(135deg, #059669 0%, #0284c7 55%, #1d4ed8 100%);
+      box-shadow: 0 12px 24px -6px rgba(29, 78, 216, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .tech-cta-btn:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1.5px);
+      box-shadow: 0 16px 30px -6px rgba(16, 185, 129, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+    }
+
+    .tech-cta-btn:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .glass-nav {
+      background: linear-gradient(135deg, #0f296e 0%, #1d4ed8 55%, #1e3a8a 100%);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.55);
+      color: #ffffff;
+    }
+
+    .header-moul-title {
+      font-family: 'Khmer Moul Light', 'Khmer OS Muol Light', 'Khmer OS Muol', 'Khmer Moul', 'Kantumruy Pro', sans-serif !important;
+      font-weight: 400;
+      font-size: clamp(1.5rem, 4.9vw, 2.35rem) !important;
+      color: #ffffff !important;
+      letter-spacing: 0.02em;
+      line-height: 1.55 !important;
+      text-shadow: 0 2px 6px rgba(2, 6, 23, 0.45);
+    }
+
+    /* Rotating red glow ring around the bank icon container */
+    @keyframes bankRedOrbit {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes bankRedPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 10px rgba(239, 68, 68, 0.9),
+          0 0 22px rgba(220, 38, 38, 0.65),
+          0 0 34px rgba(185, 28, 28, 0.35);
+      }
+      50% {
+        box-shadow:
+          0 0 16px rgba(254, 202, 202, 1),
+          0 0 28px rgba(239, 68, 68, 0.95),
+          0 0 42px rgba(220, 38, 38, 0.65);
+      }
+    }
+
+    .bank-icon-orbit-wrapper {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      border-radius: 0.9rem;
+      padding: 2.5px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: bankRedPulse 1.4s ease-in-out infinite;
+    }
+
+    .bank-icon-orbit-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -75%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 110deg,
+        rgba(153, 27, 27, 0.35) 155deg,
+        rgba(220, 38, 38, 0.8) 215deg,
+        #ef4444 270deg,
+        #ff6b6b 315deg,
+        #ffe4e6 345deg,
+        #ef4444 360deg
+      );
+      animation: bankRedOrbit 1.45s linear infinite;
+      z-index: 0;
+    }
+
+    .bank-icon-core {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.75rem;
+      background: linear-gradient(145deg, #172554 0%, #1e3a8a 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Main Header with Left Hamburger Menu -->
+  <header class="glass-nav sticky top-0 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <button type="button" onclick="toggleDrawer(true)" aria-label="Menu"
+          class="w-10 h-10 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center transition">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+
+        <div class="flex items-center gap-4 sm:gap-5 cursor-pointer" onclick="switchView('home')">
+          <div class="bank-icon-orbit-wrapper">
+            <div class="bank-icon-core">
+              <i class="fa-solid fa-building-columns text-lg"></i>
+            </div>
+          </div>
+          <div class="pl-0.5 sm:pl-1">
+            <h1 class="header-moul-title leading-tight" data-i18n="brandName">មីក្រូហ្វាយនែន ខេអេច</h1>
+            <p class="text-[10px] sm:text-xs text-blue-100 hidden sm:block leading-tight" data-i18n="brandTagline">Fast & Trusted Loan Services</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Slide-Out Drawer -->
+  <div id="drawerBackdrop" onclick="toggleDrawer(false)" class="fixed inset-0 bg-slate-900/50 z-40 hidden"></div>
+  <aside id="leftDrawer" class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl z-50 -translate-x-full transition-transform duration-300 flex flex-col justify-between p-5">
+    <div class="space-y-5">
+      <div class="flex items-center justify-between border-b pb-3">
+        <span class="font-bold text-blue-950 text-base" data-i18n="menuTitle">Navigation</span>
+        <button type="button" onclick="toggleDrawer(false)" class="text-slate-400 hover:text-slate-700 text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5" data-i18n="lblLanguage">Language</label>
+        <select id="drawerLangSelect" onchange="changeLanguage(this.value)"
+          class="w-full bg-slate-100 border border-slate-200 text-slate-800 text-sm rounded-xl p-2.5 font-medium">
+          <option value="km">🇰🇭 ខ្មែរ</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+      </div>
+
+      <nav class="space-y-2">
+        <button type="button" onclick="switchView('home'); toggleDrawer(false);"
+          class="w-full text-left px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-semibold text-sm flex items-center gap-2.5 shadow-xs transition">
+          <i class="fa-solid fa-house"></i>
+          <span data-i18n="navHome">ទំព័រដើម</span>
+        </button>
+        <button type="button" onclick="switchView('home'); toggleDrawer(false);"
+          class="w-full text-left px-4 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 font-semibold text-sm flex items-center gap-2.5 transition">
+          <i class="fa-solid fa-file-signature"></i>
+          <span data-i18n="navApply">ពាក្យស្នើសុំកម្ចី</span>
+        </button>
+        <button type="button" onclick="openAdminPortal(); toggleDrawer(false);"
+          class="w-full text-left px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm flex items-center gap-2.5 transition">
+          <i class="fa-solid fa-user-shield text-blue-700"></i>
+          <span data-i18n="adminLoginBtn">Admin</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="text-xs text-slate-400 border-t pt-3">
+      MicroFinance KH Portal
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-[70] hidden max-w-sm bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-sm flex items-center gap-2.5">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toastText"></span>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-[65] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl animate-fade-in">
+      <h3 id="confirmTitle" class="text-lg font-bold text-slate-900">Delete Application?</h3>
+      <p id="confirmDesc" class="text-sm text-slate-600 mt-1.5">This action cannot be undone.</p>
+      <div class="mt-5 flex justify-end gap-2.5">
+        <button type="button" onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold">
+          <span data-i18n="btnCancel">Cancel</span>
+        </button>
+        <button type="button" id="confirmActionBtn" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold">
+          <span data-i18n="btnDelete">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER PORTAL -->
+  <main id="customerView" class="flex-grow">
+    <!-- Homepage Image Slider -->
+    <section class="relative w-full max-w-7xl mx-auto sm:px-6 lg:px-8 sm:pt-6">
+      <div class="relative overflow-hidden sm:rounded-2xl shadow-lg bg-slate-900 aspect-[16/9] sm:aspect-[21/8] max-h-[420px]">
+        <div id="sliderTrack" class="slide-track h-full"></div>
+
+        <button type="button" onclick="prevSlide()" aria-label="Previous slide"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/45 hover:bg-black/65 text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" onclick="nextSlide()" aria-label="Next slide"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/45 hover:bg-black/65 text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div id="sliderDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"></div>
+      </div>
+    </section>
+
+    <!-- Customer Registration Form -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden animate-fade-in">
+        <div class="bg-gradient-to-r from-blue-800 to-blue-600 px-6 py-6 sm:px-8 text-white">
+          <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-file-signature"></i>
+            <span data-i18n="formTitle">Loan Application Form</span>
+          </h2>
+          <p class="text-blue-100 text-sm mt-1" data-i18n="formSubtitle">Please fill in your accurate personal and financial details below.</p>
+        </div>
+
+        <form id="loanForm" onsubmit="handleLoanSubmit(event)" class="p-6 sm:p-8 space-y-6">
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-blue-700 mb-4 border-b pb-2" data-i18n="secPersonal">1. Personal Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblFullName">Full Name</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="fullName" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  data-i18n-placeholder="phFullName" placeholder="Enter your full name">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblPhone">Mobile Phone Number</span> <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-2.5 text-slate-400 font-medium text-sm">+855</span>
+                  <input type="tel" id="phone" required
+                    class="w-full pl-14 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    placeholder="012 345 678">
+                </div>
+                <p id="phoneError" class="text-xs text-red-600 mt-1 hidden" data-i18n="errPhone">Invalid Cambodian phone number (e.g., 012345678 or 0961234567).</p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblMarital">Marital Status</span> <span class="text-red-500">*</span>
+                </label>
+                <select id="maritalStatus" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white transition">
+                  <option value="" disabled selected data-i18n="optSelect">-- Select Status --</option>
+                  <option value="Single" data-i18n="maritalSingle">Single</option>
+                  <option value="Married" data-i18n="maritalMarried">Married</option>
+                  <option value="Widow" data-i18n="maritalWidow">Widow</option>
+                  <option value="Widower" data-i18n="maritalWidower">Widower</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblOccupation">Current Occupation</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="occupation" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  data-i18n-placeholder="phOccupation" placeholder="e.g., Business Owner, Teacher, Worker">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-blue-700 mb-4 border-b pb-2" data-i18n="secLoan">2. Loan Request Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblCurrency">Currency</span> <span class="text-red-500">*</span>
+                </label>
+                <select id="currency" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white transition">
+                  <option value="USD">USD ($)</option>
+                  <option value="KHR">KHR (៛)</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblAmount">Requested Loan Amount</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="number" id="loanAmount" min="1" step="any" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="1000">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-blue-700 mb-4 border-b pb-2" data-i18n="secAddress">3. Current Address & Housing</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblVillage">Village</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="village" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblCommune">Commune / Sangkat</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="commune" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblDistrict">District / Khan</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="district" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblProvince">Province / Capital / City</span> <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="province" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                  <span data-i18n="lblHousing">Housing Status</span> <span class="text-red-500">*</span>
+                </label>
+                <select id="housingStatus" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white transition">
+                  <option value="" disabled selected data-i18n="optSelect">-- Select Housing Status --</option>
+                  <option value="Own House" data-i18n="houseOwn">Own House</option>
+                  <option value="Renting a House" data-i18n="houseRent">Renting a House</option>
+                  <option value="Renting a Room" data-i18n="roomRent">Renting a Room</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" id="submitBtn"
+              class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 text-base">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span data-i18n="btnSubmit">Submit Application</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="success-modal-card rounded-[2rem] max-w-md w-full p-7 sm:p-9 text-center relative overflow-hidden">
+      <!-- Subtle Futuristic Ambient Orbs -->
+      <div class="tech-orb absolute -top-14 -right-14 w-40 h-40 rounded-full bg-gradient-to-br from-emerald-400/25 to-cyan-400/20 blur-xl pointer-events-none"></div>
+      <div class="tech-orb absolute -bottom-16 -left-14 w-44 h-44 rounded-full bg-gradient-to-tr from-blue-500/20 to-indigo-400/15 blur-xl pointer-events-none"></div>
+
+      <!-- Top Close Icon Button -->
+      <button type="button" onclick="closeSuccessModal()" aria-label="Close modal"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-200/70 hover:bg-slate-300/80 text-slate-600 hover:text-slate-900 flex items-center justify-center transition z-20">
+        <i class="fa-solid fa-xmark text-base"></i>
+      </button>
+
+      <!-- Top Tech Status Pill -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/85 border border-emerald-200/90 shadow-2xs mb-5 relative z-10">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span class="text-[11px] font-bold tracking-wider uppercase text-emerald-700">VERIFIED • DIGITAL PORTAL</span>
+      </div>
+
+      <!-- Animated Check Icon Badge -->
+      <div class="w-24 h-24 success-badge-ring text-white rounded-full flex items-center justify-center mx-auto mb-5 text-4xl animate-bounce relative z-10">
+        <i class="fa-solid fa-check drop-shadow-xs"></i>
+      </div>
+
+      <!-- Bouncing Gradient Success Title -->
+      <h3 class="text-3xl sm:text-4xl font-black tracking-tight success-title-pop relative z-10" data-i18n="modalSuccessTitle">Registration Successful!</h3>
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed max-w-xs sm:max-w-sm mx-auto relative z-10" data-i18n="modalSuccessDesc">Your loan application has been securely recorded.</p>
+
+      <!-- Sleek Modern Close Action Button -->
+      <button type="button" onclick="closeSuccessModal()"
+        class="mt-7 w-full tech-cta-btn text-white font-bold py-3.5 px-6 rounded-2xl text-base flex items-center justify-center gap-2 relative z-10">
+        <i class="fa-solid fa-circle-xmark"></i>
+        <span data-i18n="btnClose">Close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ADMIN PORTAL -->
+  <section id="adminView" class="hidden flex-grow bg-slate-100">
+    <!-- Admin Login -->
+    <div id="adminLoginSection" class="max-w-md mx-auto px-4 py-14">
+      <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+        <div class="text-center mb-6">
+          <div class="w-14 h-14 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900" data-i18n="adminLoginTitle">Admin Portal Login</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="adminLoginSub">Sign in with your admin email and password</p>
+        </div>
+
+        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" autocomplete="off" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblAdminEmail">Admin Email</label>
+            <input type="email" id="adminEmailInput" required autocomplete="off"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblPassword">Password</label>
+            <input type="password" id="adminPassInput" required autocomplete="new-password"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+
+          <p id="loginError" class="text-xs text-red-600 hidden" data-i18n="errLogin">Invalid email or password.</p>
+
+          <button type="submit"
+            class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow transition">
+            <span data-i18n="btnSignIn">Sign In</span>
+          </button>
+        </form>
+
+        <button type="button" onclick="switchView('home')"
+          class="w-full mt-4 text-sm text-slate-500 hover:text-slate-800 font-medium" data-i18n="btnBackHome">
+          ← Back to Customer Form
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboardSection" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900" data-i18n="dashTitle">Admin Dashboard</h2>
+          <p class="text-sm text-slate-500" data-i18n="dashSubtitle">Manage loan applications, homepage banners, contact info, and admin credentials</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button type="button" onclick="switchView('home')"
+            class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold transition">
+            <i class="fa-solid fa-eye mr-1"></i> <span data-i18n="btnViewPortal">View Portal</span>
+          </button>
+          <button type="button" onclick="handleAdminLogout()"
+            class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold transition">
+            <i class="fa-solid fa-right-from-bracket mr-1"></i> <span data-i18n="btnLogout">Logout</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+          <p class="text-xs font-semibold text-slate-500" data-i18n="kpiTotal">Total Applications</p>
+          <p id="kpiTotalCount" class="text-2xl font-bold text-slate-900 mt-1">0</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+          <p class="text-xs font-semibold text-amber-600" data-i18n="kpiPending">Pending Review</p>
+          <p id="kpiPendingCount" class="text-2xl font-bold text-amber-700 mt-1">0</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+          <p class="text-xs font-semibold text-emerald-600" data-i18n="kpiApproved">Approved</p>
+          <p id="kpiApprovedCount" class="text-2xl font-bold text-emerald-700 mt-1">0</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+          <p class="text-xs font-semibold text-blue-600" data-i18n="kpiVolume">Total Volume (USD)</p>
+          <p id="kpiVolumeUsd" class="text-2xl font-bold text-blue-800 mt-1">$0</p>
+        </div>
+      </div>
+
+      <!-- Admin Tabs -->
+      <div class="flex flex-wrap gap-2 border-b border-slate-200 mb-6">
+        <button type="button" id="tabApplications" onclick="switchAdminTab('applications')"
+          class="px-5 py-2.5 rounded-t-xl font-semibold text-sm bg-blue-700 text-white transition" data-i18n="tabApplications">
+          Applications
+        </button>
+        <button type="button" id="tabSlider" onclick="switchAdminTab('slider')"
+          class="px-5 py-2.5 rounded-t-xl font-semibold text-sm bg-white text-slate-600 hover:text-slate-900 transition" data-i18n="tabSlider">
+          Homepage Slider
+        </button>
+        <button type="button" id="tabSettings" onclick="switchAdminTab('settings')"
+          class="px-5 py-2.5 rounded-t-xl font-semibold text-sm bg-white text-slate-600 hover:text-slate-900 transition" data-i18n="tabSettings">
+          Settings & Contact
+        </button>
+      </div>
+
+      <!-- Tab 1: Applications -->
+      <div id="panelApplications" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-5">
+          <div class="flex flex-col sm:flex-row gap-3 flex-grow">
+            <input type="text" id="searchInput" oninput="renderApplicationsTable()"
+              class="w-full sm:max-w-xs px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              data-i18n-placeholder="phSearch" placeholder="Search ID, name, phone, province...">
+
+            <select id="statusFilter" onchange="renderApplicationsTable()"
+              class="px-4 py-2 rounded-xl border border-slate-300 text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="ALL" data-i18n="filterAll">All Statuses</option>
+              <option value="Pending" data-i18n="stPending">Pending</option>
+              <option value="Approved" data-i18n="stApproved">Approved</option>
+              <option value="Rejected" data-i18n="stRejected">Rejected</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="exportToExcel()"
+              class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-excel"></i> <span data-i18n="btnExportExcel">Export Excel</span>
+            </button>
+            <button type="button" onclick="exportToPDF()"
+              class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-pdf"></i> <span data-i18n="btnExportPdf">Export PDF</span>
+            </button>
+            <button type="button" onclick="resetDemoData()"
+              class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold transition">
+              <span data-i18n="btnResetDemo">Reset Demo Data</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 text-xs uppercase text-slate-500 bg-slate-50">
+                <th class="py-3 px-3" data-i18n="thId">Reg ID</th>
+                <th class="py-3 px-3" data-i18n="thCustomer">Customer</th>
+                <th class="py-3 px-3" data-i18n="thLoan">Loan Request</th>
+                <th class="py-3 px-3" data-i18n="thAddress">Address & Housing</th>
+                <th class="py-3 px-3" data-i18n="thStatus">Status</th>
+                <th class="py-3 px-3 text-right" data-i18n="thActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="applicationsTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Slider Manager -->
+      <div id="panelSlider" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900" data-i18n="sliderMgrTitle">Homepage Image Slider Manager</h3>
+          <p class="text-sm text-slate-500" data-i18n="sliderMgrDesc">Add or remove slides shown on the customer homepage.</p>
+        </div>
+
+        <form id="addSlideForm" onsubmit="handleAddSlide(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblSlideTitle">Slide Title</label>
+            <input type="text" id="slideTitleInput" required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              data-i18n-placeholder="phSlideTitle" placeholder="e.g., Special Low Interest">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblSlideSubtitle">Subtitle</label>
+            <input type="text" id="slideSubtitleInput" required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              data-i18n-placeholder="phSlideSub" placeholder="e.g., Fast approval within 24 hours">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblSlideImg">Image URL</label>
+            <input type="url" id="slideImageInput" required
+              class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="https://...">
+          </div>
+          <div class="flex items-end">
+            <button type="submit"
+              class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-xl text-sm transition">
+              <i class="fa-solid fa-plus mr-1"></i> <span data-i18n="btnAddSlide">Add Slide</span>
+            </button>
+          </div>
+        </form>
+
+        <div id="adminSlidesList" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- Tab 3: Settings & Contact -->
+      <div id="panelSettings" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 mb-1" data-i18n="contactMgrTitle">Additional Info & Contact Settings</h3>
+            <p class="text-sm text-slate-500 mb-5" data-i18n="contactMgrDesc">Configure phone number, Telegram, Facebook link, and WhatsApp routing number.</p>
+
+            <form onsubmit="handleSaveContactSettings(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblContactPhone">Phone Number</label>
+                <input type="text" id="contactPhoneInput" required
+                  class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblContactTelegram">Telegram (@username or phone)</label>
+                <input type="text" id="contactTelegramInput" required
+                  class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblContactFacebook">Facebook Link (URL)</label>
+                <input type="url" id="contactFacebookInput" required
+                  class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblWaNumber">Officer WhatsApp Number</label>
+                <input type="text" id="waNumberInput" required
+                  class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                  placeholder="85512345678">
+              </div>
+
+              <div class="border-t border-slate-200 pt-4 space-y-3">
+                <p class="text-xs font-bold uppercase tracking-wider text-sky-700" data-i18n="tgAutoTitle">Auto Send to Telegram Bot</p>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblTgBotToken">Telegram Bot Token</label>
+                  <input type="text" id="tgBotTokenInput"
+                    class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblTgChatId">Telegram Chat ID</label>
+                  <input type="text" id="tgChatIdInput"
+                    class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="-1001234567890 or 123456789">
+                </div>
+              </div>
+
+              <div class="border-t border-slate-200 pt-4 space-y-2">
+                <p class="text-xs font-bold uppercase tracking-wider text-emerald-700" data-i18n="gsAutoTitle">Auto Send to Google Sheets</p>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="lblGsWebAppUrl">Google Apps Script Web App URL</label>
+                  <input type="url" id="gsWebAppUrlInput"
+                    class="w-full px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2.5 pt-2">
+                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
+                  <i class="fa-solid fa-floppy-disk mr-1.5"></i> <span data-i18n="btnSaveContact">Save Contact Info</span>
+                </button>
+                <button type="button" onclick="downloadUpdatedHtmlForGitHub()"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition flex items-center gap-1.5">
+                  <i class="fa-brands fa-github"></i> <span data-i18n="btnExportGithubHtml">Download index.html for GitHub</span>
+                </button>
+              </div>
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="githubSyncNote">
+                ចំណាំសម្រាប់ GitHub៖ ដើម្បីឱ្យអ្នកប្រើប្រាស់គ្រប់គ្នាទទួលបានការកំណត់ថ្មីរបស់អ្នក សូមចុច «ទាញយក index.html សម្រាប់ GitHub» រួចយកទៅដាក់ជំនួសឯកសារចាស់ក្នុង GitHub Repository។
+              </p>
+            </form>
+          </div>
+
+          <!-- Change Admin Email & Password -->
+          <div class="border-t lg:border-t-0 lg:border-l border-slate-200 pt-6 lg:pt-0 lg:pl-8">
+            <h3 class="text-lg font-bold text-slate-900 mb-1" data-i18n="credMgrTitle">Change Admin Email & Password</h3>
+            <p class="text-sm text-slate-500 mb-5" data-i18n="credMgrDesc">Update your administrator login email and password securely.</p>
+
+            <form onsubmit="handleChangeCredentials(event)" class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblCurrentPass">Current Password</label>
+                <input type="password" id="currentPassInput" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblNewEmail">New Admin Email</label>
+                <input type="email" id="newAdminEmailInput" required
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblNewPass">New Password</label>
+                <input type="password" id="newPassInput" required minlength="4"
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblConfirmPass">Confirm New Password</label>
+                <input type="password" id="confirmPassInput" required minlength="4"
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+              </div>
+
+              <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
+                <i class="fa-solid fa-key mr-1.5"></i> <span data-i18n="btnUpdateCreds">Update Email & Password</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & More Information Section + Compact Footer -->
+  <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div class="bg-slate-800/75 border border-slate-700/80 rounded-lg px-3 py-2 sm:px-3.5 sm:py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div class="leading-tight">
+          <p class="text-[11px] sm:text-xs font-bold text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-blue-400 text-[10px]"></i>
+            <span data-i18n="footerContactTitle">សម្រាប់ព័ត៌មានបន្ថែម និងមានចម្ងល់ផ្សេងៗ</span>
+          </p>
+          <p class="text-[10px] sm:text-[11px] text-slate-300 mt-0.5" data-i18n="footerContactSub">អាចទំនាក់ទំនងតាមរយៈ៖</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5">
+          <!-- Phone -->
+          <a id="footerPhoneLink" href="tel:0964143168"
+            class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-emerald-600/90 hover:bg-emerald-500 text-white text-[10px] sm:text-[11px] font-medium transition">
+            <i class="fa-solid fa-phone text-[9px]"></i>
+            <span><span data-i18n="lblFooterPhone">លេខទូរស័ព្ទ</span>: <strong id="footerPhoneDisplay" class="font-semibold">0964143168</strong></span>
+          </a>
+
+          <!-- Telegram -->
+          <a id="footerTelegramLink" href="https://t.me/choek_sokun" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#229ED9]/90 hover:bg-[#1c8ec4] text-white text-[10px] sm:text-[11px] font-medium transition">
+            <i class="fa-brands fa-telegram text-[11px]"></i>
+            <span><span data-i18n="lblFooterTelegram">Telegram</span>: <strong id="footerTelegramDisplay" class="font-semibold">@choek_sokun</strong></span>
+          </a>
+
+          <!-- Facebook -->
+          <a id="footerFacebookLink" href="https://www.facebook.com/share/1DqQoHd86Z/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#1877F2]/90 hover:bg-[#166fe5] text-white text-[10px] sm:text-[11px] font-medium transition">
+            <i class="fa-brands fa-facebook text-[11px]"></i>
+            <span data-i18n="lblFooterFbPage">Facebook</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-2 pt-1.5 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px] text-slate-400">
+        <span>© 2026 MicroFinance KH. <span data-i18n="footerRights">រក្សាសិទ្ធិគ្រប់យ៉ាង។</span></span>
+        <span data-i18n="footerNote">ប្រព័ន្ធចុះឈ្មោះប្រាក់កម្ចីឌីជីថលប្រកបដោយសុវត្ថិភាព</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Storage Keys
+    const STORAGE_KEYS = {
+      APPS: "mf_loan_applications_v1",
+      SLIDES: "mf_homepage_slides_v2",
+      SETTINGS: "mf_portal_settings_v3",
+      ADMIN_AUTH: "mf_admin_logged_in_v1",
+      LANG: "mf_portal_lang_v1"
+    };
+
+    // Embedded Global Configuration (Shared across all visitors on GitHub Pages)
+    const DEFAULT_SETTINGS = {
+      adminEmail: "admin@microfinance.kh",
+      adminPass: "admin123",
+      whatsappNumber: "855964143168",
+      contactPhone: "0964143168",
+      contactTelegram: "@choek_sokun",
+      contactFacebook: "https://www.facebook.com/share/1DqQoHd86Z/",
+      tgBotToken: "8714032024:AAFaVk3bfbFrzFZFEQwB2NR85JiQhy3acCE",
+      tgChatId: "7184484645",
+      gsWebAppUrl: ""
+    };
+
+    // Default Homepage Slides
+    const DEFAULT_SLIDES = [
+      {
+        id: "slide-1",
+        title: "ប្រាក់កម្ចីអាជីវកម្ម និងផ្ទាល់ខ្លួនរហ័សទាន់ចិត្ត",
+        subtitle: "ការអនុម័តរហ័ស លក្ខខណ្ឌងាយស្រួល និងអត្រាការប្រាក់សមរម្យ",
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=80"
+      },
+      {
+        id: "slide-2",
+        title: "គាំទ្រការពង្រីកអាជីវកម្មរបស់អ្នក",
+        subtitle: "ទទួលបានដើមទុនបន្ថែមសម្រាប់ហាង ក្រុមហ៊ុន និងកសិកម្ម",
+        image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1400&q=80"
+      },
+      {
+        id: "slide-3",
+        title: "សេវាកម្មប្រឹក្សាយោបល់ប្រកបដោយទំនុកចិត្ត",
+        subtitle: "ក្រុមការងារជំនាញរង់ចាំជួយសម្របសម្រួលជូនលោកអ្នកគ្រប់ជំហាន",
+        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&q=80"
+      }
+    ];
+
+    // Default Sample Applications
+    const DEFAULT_APPS = [
+      {
+        regId: "LN-849201",
+        fullName: "សុខ ចាន់នី",
+        phone: "012889977",
+        maritalStatus: "Married",
+        occupation: "Grocery Shop Owner",
+        currency: "USD",
+        loanAmount: 2500,
+        village: "ភូមិទួលគោក",
+        commune: "សង្កាត់បឹងកក់១",
+        district: "ខណ្ឌទួលគោក",
+        province: "រាជធានីភ្នំពេញ",
+        housingStatus: "Own House",
+        status: "Pending",
+        createdAt: "2026-11-20T09:15:00.000Z"
+      },
+      {
+        regId: "LN-849202",
+        fullName: "ជា វណ្ណា",
+        phone: "0965544332",
+        maritalStatus: "Single",
+        occupation: "School Teacher",
+        currency: "KHR",
+        loanAmount: 4000000,
+        village: "ភូមិស្វាយដង្គំ",
+        commune: "សង្កាត់ស្វាយដង្គំ",
+        district: "ក្រុងសៀមរាប",
+        province: "ខេត្តសៀមរាប",
+        housingStatus: "Renting a House",
+        status: "Approved",
+        createdAt: "2026-11-21T14:30:00.000Z"
+      }
+    ];
+
+    // Trilingual Dictionary (Khmer, English, Chinese)
+    const I18N = {
+      km: {
+        brandName: "មីក្រូហ្វាយនែន ខេអេច",
+        brandTagline: "សេវាកម្មប្រាក់កម្ចីរហ័ស និងទុកចិត្តបាន",
+        navHome: "ទំព័រដើម",
+        navApply: "ពាក្យស្នើសុំកម្ចី",
+        menuTitle: "ម៉ឺនុយរុករក",
+        lblLanguage: "ភាសា",
+        adminLoginBtn: "Admin",
+        formTitle: "ទម្រង់ស្នើសុំប្រាក់កម្ចី",
+        formSubtitle: "សូមបំពេញព័ត៌មានផ្ទាល់ខ្លួន និងព័ត៌មានកម្ចីរបស់អ្នកឱ្យបានត្រឹមត្រូវ។",
+        secPersonal: "១. ព័ត៌មានផ្ទាល់ខ្លួន",
+        lblFullName: "ឈ្មោះពេញ",
+        phFullName: "បញ្ចូលឈ្មោះពេញរបស់អ្នក",
+        lblPhone: "លេខទូរស័ព្ទ",
+        errPhone: "លេខទូរស័ព្ទកម្ពុជាមិនត្រឹមត្រូវ (ឧទាហរណ៍៖ 012345678 ឬ 0961234567)។",
+        lblMarital: "ស្ថានភាពគ្រួសារ",
+        optSelect: "-- ជ្រើសរើស --",
+        maritalSingle: "នៅលីវ",
+        maritalMarried: "រៀបការរួច",
+        maritalWidow: "មេម៉ាយ (ស្រី)",
+        maritalWidower: "ពោះម៉ាយ (ប្រុស)",
+        lblOccupation: "មុខរបរ ឬការងារបច្ចុប្បន្ន",
+        phOccupation: "ឧទាហរណ៍៖ អាជីវករ គ្រូបង្រៀន បុគ្គលិក",
+        secLoan: "២. ព័ត៌មានប្រាក់កម្ចីដែលស្នើសុំ",
+        lblCurrency: "រូបិយប័ណ្ណ",
+        lblAmount: "ទឹកប្រាក់កម្ចីដែលត្រូវការ",
+        secAddress: "៣. អាសយដ្ឋានបច្ចុប្បន្ន និងលំនៅដ្ឋាន",
+        lblVillage: "ភូមិ",
+        lblCommune: "ឃុំ / សង្កាត់",
+        lblDistrict: "ស្រុក / ខណ្ឌ",
+        lblProvince: "ខេត្ត / រាជធានី / ក្រុង",
+        lblHousing: "ស្ថានភាពលំនៅដ្ឋាន",
+        houseOwn: "ផ្ទះផ្ទាល់ខ្លួន",
+        houseRent: "ជួលផ្ទះនៅ",
+        roomRent: "ជួលបន្ទប់នៅ",
+        btnSubmit: "ដាក់ពាក្យស្នើសុំ",
+        modalSuccessTitle: "ជោគជ័យ!",
+        modalSuccessDesc: "ពាក្យស្នើសុំប្រាក់កម្ចីរបស់អ្នកត្រូវបានរក្សាទុក និងបញ្ជូនដោយជោគជ័យ។",
+        lblRegId: "លេខកូដចុះឈ្មោះ",
+        btnClose: "បិទ",
+        adminLoginTitle: "ចូលប្រើប្រព័ន្ធ Admin",
+        adminLoginSub: "វាយបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់ Admin",
+        lblAdminEmail: "អ៊ីមែល Admin",
+        lblPassword: "ពាក្យសម្ងាត់",
+        errLogin: "អ៊ីមែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវទេ។",
+        btnSignIn: "ចូលប្រើ",
+        btnBackHome: "← ត្រឡប់ទៅទម្រង់ស្នើសុំ",
+        dashTitle: "ផ្ទាំងគ្រប់គ្រង Admin",
+        dashSubtitle: "គ្រប់គ្រងពាក្យស្នើសុំកម្ចី រូបភាពស្លាយ ព័ត៌មានទំនាក់ទំនង និងគណនី Admin",
+        btnViewPortal: "មើលទំព័រអតិថិជន",
+        btnLogout: "ចាកចេញ",
+        kpiTotal: "ពាក្យស្នើសុំសរុប",
+        kpiPending: "កំពុងរង់ចាំពិនិត្យ",
+        kpiApproved: "បានអនុម័ត",
+        kpiVolume: "ទំហំកម្ចីសរុប (USD)",
+        tabApplications: "បញ្ជីពាក្យស្នើសុំ",
+        tabSlider: "គ្រប់គ្រងស្លាយ",
+        tabSettings: "ការកំណត់ និងទំនាក់ទំនង",
+        phSearch: "ស្វែងរកលេខកូដ ឈ្មោះ លេខទូរស័ព្ទ ខេត្ត...",
+        filterAll: "គ្រប់ស្ថានភាព",
+        stPending: "កំពុងរង់ចាំ",
+        stApproved: "បានអនុម័ត",
+        stRejected: "បានបដិសេធ",
+        btnExportExcel: "នាំចេញ Excel",
+        btnExportPdf: "នាំចេញ PDF",
+        btnResetDemo: "កំណត់ទិន្នន័យគំរូឡើងវិញ",
+        thId: "លេខកូដ",
+        thCustomer: "អតិថិជន",
+        thLoan: "ទឹកប្រាក់ស្នើសុំ",
+        thAddress: "អាសយដ្ឋាន និងលំនៅដ្ឋាន",
+        thStatus: "ស្ថានភាព",
+        thActions: "សកម្មភាព",
+        sliderMgrTitle: "គ្រប់គ្រងរូបភាពស្លាយទំព័រដើម",
+        sliderMgrDesc: "បន្ថែម ឬលុបរូបភាពផ្សព្វផ្សាយនៅទំព័រដើម។",
+        lblSlideTitle: "ចំណងជើងស្លាយ",
+        phSlideTitle: "ឧទាហរណ៍៖ កម្ចីការប្រាក់ពិសេស",
+        lblSlideSubtitle: "ចំណងជើងរង",
+        phSlideSub: "ឧទាហរណ៍៖ អនុម័តរហ័សក្នុងរយៈពេល ២៤ ម៉ោង",
+        lblSlideImg: "តំណភ្ជាប់រូបភាព (URL)",
+        btnAddSlide: "បន្ថែមស្លាយ",
+        contactMgrTitle: "កែប្រែព័ត៌មានបន្ថែម និងទំនាក់ទំនង",
+        contactMgrDesc: "កំណត់លេខទូរស័ព្ទ Telegram តំណភ្ជាប់ Facebook និងលេខ WhatsApp មន្ត្រី។",
+        lblContactPhone: "លេខទូរស័ព្ទ",
+        lblContactTelegram: "Telegram (@username ឬលេខទូរស័ព្ទ)",
+        lblContactFacebook: "តំណភ្ជាប់ Facebook (URL)",
+        lblWaNumber: "លេខ WhatsApp មន្ត្រីកម្ចី",
+        tgAutoTitle: "ផ្ញើពាក្យស្នើសុំទៅ Telegram អូតូម៉ាទិច",
+        lblTgBotToken: "Telegram Bot Token",
+        lblTgChatId: "Telegram Chat ID",
+        msgTgSent: "បានផ្ញើពាក្យស្នើសុំទៅ Telegram អូតូម៉ាទិចរួចរាល់។",
+        msgTgNotConfigured: "មិនទាន់បានកំណត់ Bot Token ឬ Chat ID ទេ (រក្សាទុកក្នុងប្រព័ន្ធរួចរាល់)។",
+        msgTgFailed: "មិនអាចផ្ញើទៅ Telegram អូតូម៉ាទិចបានទេ។",
+        gsAutoTitle: "បញ្ជូនពាក្យស្នើសុំទៅ Google Sheets អូតូម៉ាទិច",
+        lblGsWebAppUrl: "តំណភ្ជាប់ Google Apps Script Web App URL",
+        msgGsSent: "បានបញ្ជូនពាក្យស្នើសុំទៅ Google Sheets អូតូម៉ាទិចរួចរាល់។",
+        msgGsNotConfigured: "មិនទាន់បានកំណត់ Google Sheets Web App URL ទេ (រក្សាទុកក្នុងប្រព័ន្ធរួចរាល់)។",
+        msgGsInvalidUrl: "URL Google Sheets មិនត្រឹមត្រូវទេ (ត្រូវចាប់ផ្តើមដោយ https://script.google.com/macros/s/)។",
+        msgGsFailed: "មិនអាចបញ្ជូនទៅ Google Sheets អូតូម៉ាទិចបានទេ។",
+        btnSaveContact: "រក្សាទុកព័ត៌មានទំនាក់ទំនង",
+        btnExportGithubHtml: "ទាញយក index.html សម្រាប់ GitHub",
+        githubSyncNote: "ចំណាំសម្រាប់ GitHub៖ ដើម្បីឱ្យអ្នកប្រើប្រាស់គ្រប់គ្នាទទួលបានការកំណត់ថ្មីរបស់អ្នក សូមចុច «ទាញយក index.html សម្រាប់ GitHub» រួចយកទៅដាក់ជំនួសឯកសារចាស់ក្នុង GitHub Repository។",
+        msgGithubHtmlExported: "បានទាញយកឯកសារ index.html ដែលមានការកំណត់ថ្មីរួចរាល់!",
+        credMgrTitle: "ផ្លាស់ប្ដូរអ៊ីមែល និងពាក្យសម្ងាត់ Admin",
+        credMgrDesc: "ធ្វើបច្ចុប្បន្នភាពអ៊ីមែល និងពាក្យសម្ងាត់សម្រាប់ចូលប្រើប្រព័ន្ធ Admin។",
+        lblCurrentPass: "ពាក្យសម្ងាត់បច្ចុប្បន្ន",
+        lblNewEmail: "អ៊ីមែល Admin ថ្មី",
+        lblNewPass: "ពាក្យសម្ងាត់ថ្មី",
+        lblConfirmPass: "បញ្ជាក់ពាក្យសម្ងាត់ថ្មី",
+        btnUpdateCreds: "ផ្លាស់ប្ដូរអ៊ីមែល និងពាក្យសម្ងាត់",
+        msgSubmitted: "បានដាក់ពាក្យស្នើសុំដោយជោគជ័យ!",
+        msgCopied: "បានចម្លងសារទុករួចរាល់។",
+        msgContactSaved: "បានរក្សាទុកព័ត៌មានទំនាក់ទំនងរួចរាល់។",
+        msgErrCurrPass: "ពាក្យសម្ងាត់បច្ចុប្បន្នមិនត្រឹមត្រូវទេ។",
+        msgErrPassMismatch: "ពាក្យសម្ងាត់ថ្មី និងការបញ្ជាក់មិនដូចគ្នាទេ។",
+        msgCredsUpdated: "បានផ្លាស់ប្ដូរអ៊ីមែល និងពាក្យសម្ងាត់ Admin រួចរាល់!",
+        msgStatusUpdated: "បានធ្វើបច្ចុប្បន្នភាពស្ថានភាពរួចរាល់។",
+        msgSlideAdded: "បានបន្ថែមស្លាយថ្មីរួចរាល់។",
+        msgSlideDeleted: "បានលុបស្លាយរួចរាល់។",
+        msgMinSlide: "ត្រូវមានស្លាយយ៉ាងហោចណាស់ ១។",
+        msgDemoReset: "បានកំណត់ទិន្នន័យគំរូឡើងវិញរួចរាល់។",
+        msgAppDeleted: "បានលុបពាក្យស្នើសុំរួចរាល់។",
+        confirmDelTitle: "លុបពាក្យស្នើសុំនេះ?",
+        confirmDelDesc: "សកម្មភាពនេះមិនអាចត្រឡប់ក្រោយបានទេ។",
+        btnCancel: "បោះបង់",
+        btnDelete: "លុប",
+        footerContactTitle: "សម្រាប់ព័ត៌មានបន្ថែម និងមានចម្ងល់ផ្សេងៗ",
+        footerContactSub: "អាចទំនាក់ទំនងតាមរយៈ៖",
+        lblFooterPhone: "លេខទូរស័ព្ទ",
+        lblFooterTelegram: "Telegram",
+        lblFooterFbPage: "Facebook",
+        footerRights: "រក្សាសិទ្ធិគ្រប់យ៉ាង។",
+        footerNote: "ប្រព័ន្ធចុះឈ្មោះប្រាក់កម្ចីឌីជីថលប្រកបដោយសុវត្ថិភាព"
+      },
+      en: {
+        brandName: "MicroFinance KH",
+        brandTagline: "Fast & Trusted Loan Services",
+        navHome: "Home",
+        navApply: "Loan Application",
+        menuTitle: "Navigation",
+        lblLanguage: "Language",
+        adminLoginBtn: "Admin",
+        formTitle: "Loan Application Form",
+        formSubtitle: "Please fill in your accurate personal and financial details below.",
+        secPersonal: "1. Personal Information",
+        lblFullName: "Full Name",
+        phFullName: "Enter your full name",
+        lblPhone: "Mobile Phone Number",
+        errPhone: "Invalid Cambodian phone number (e.g., 012345678 or 0961234567).",
+        lblMarital: "Marital Status",
+        optSelect: "-- Select Status --",
+        maritalSingle: "Single",
+        maritalMarried: "Married",
+        maritalWidow: "Widow",
+        maritalWidower: "Widower",
+        lblOccupation: "Current Occupation",
+        phOccupation: "e.g., Business Owner, Teacher, Worker",
+        secLoan: "2. Loan Request Details",
+        lblCurrency: "Currency",
+        lblAmount: "Requested Loan Amount",
+        secAddress: "3. Current Address & Housing",
+        lblVillage: "Village",
+        lblCommune: "Commune / Sangkat",
+        lblDistrict: "District / Khan",
+        lblProvince: "Province / Capital / City",
+        lblHousing: "Housing Status",
+        houseOwn: "Own House",
+        houseRent: "Renting a House",
+        roomRent: "Renting a Room",
+        btnSubmit: "Submit Application",
+        modalSuccessTitle: "Success!",
+        modalSuccessDesc: "Your loan application has been securely recorded and submitted.",
+        lblRegId: "Registration ID",
+        btnClose: "Close",
+        adminLoginTitle: "Admin Portal Login",
+        adminLoginSub: "Sign in with your admin email and password",
+        lblAdminEmail: "Admin Email",
+        lblPassword: "Password",
+        errLogin: "Invalid email or password.",
+        btnSignIn: "Sign In",
+        btnBackHome: "← Back to Customer Form",
+        dashTitle: "Admin Dashboard",
+        dashSubtitle: "Manage loan applications, homepage banners, contact info, and admin credentials",
+        btnViewPortal: "View Portal",
+        btnLogout: "Logout",
+        kpiTotal: "Total Applications",
+        kpiPending: "Pending Review",
+        kpiApproved: "Approved",
+        kpiVolume: "Total Volume (USD)",
+        tabApplications: "Applications",
+        tabSlider: "Homepage Slider",
+        tabSettings: "Settings & Contact",
+        phSearch: "Search ID, name, phone, province...",
+        filterAll: "All Statuses",
+        stPending: "Pending",
+        stApproved: "Approved",
+        stRejected: "Rejected",
+        btnExportExcel: "Export Excel",
+        btnExportPdf: "Export PDF",
+        btnResetDemo: "Reset Demo Data",
+        thId: "Reg ID",
+        thCustomer: "Customer",
+        thLoan: "Loan Request",
+        thAddress: "Address & Housing",
+        thStatus: "Status",
+        thActions: "Actions",
+        sliderMgrTitle: "Homepage Image Slider Manager",
+        sliderMgrDesc: "Add or remove slides shown on the customer homepage.",
+        lblSlideTitle: "Slide Title",
+        phSlideTitle: "e.g., Special Low Interest",
+        lblSlideSubtitle: "Subtitle",
+        phSlideSub: "e.g., Fast approval within 24 hours",
+        lblSlideImg: "Image URL",
+        btnAddSlide: "Add Slide",
+        contactMgrTitle: "Additional Info & Contact Settings",
+        contactMgrDesc: "Configure phone number, Telegram, Facebook link, and WhatsApp routing number.",
+        lblContactPhone: "Phone Number",
+        lblContactTelegram: "Telegram (@username or phone)",
+        lblContactFacebook: "Facebook Link (URL)",
+        lblWaNumber: "Officer WhatsApp Number",
+        tgAutoTitle: "Auto Send to Telegram Bot",
+        lblTgBotToken: "Telegram Bot Token",
+        lblTgChatId: "Telegram Chat ID",
+        msgTgSent: "Application auto-sent to Telegram.",
+        msgTgNotConfigured: "Telegram Bot Token or Chat ID not set (saved locally).",
+        msgTgFailed: "Failed to auto-send to Telegram.",
+        gsAutoTitle: "Auto Send to Google Sheets",
+        lblGsWebAppUrl: "Google Apps Script Web App URL",
+        msgGsSent: "Application auto-sent to Google Sheets.",
+        msgGsNotConfigured: "Google Sheets Web App URL not set (saved locally).",
+        msgGsInvalidUrl: "Invalid Google Sheets URL (must start with https://script.google.com/macros/s/).",
+        msgGsFailed: "Failed to auto-send to Google Sheets.",
+        btnSaveContact: "Save Contact Info",
+        btnExportGithubHtml: "Download index.html for GitHub",
+        githubSyncNote: "Note for GitHub: To apply your updated settings for all visitors, download index.html and replace the old file in your GitHub repository.",
+        msgGithubHtmlExported: "Downloaded updated index.html with your settings!",
+        credMgrTitle: "Change Admin Email & Password",
+        credMgrDesc: "Update your administrator login email and password securely.",
+        lblCurrentPass: "Current Password",
+        lblNewEmail: "New Admin Email",
+        lblNewPass: "New Password",
+        lblConfirmPass: "Confirm New Password",
+        btnUpdateCreds: "Update Email & Password",
+        msgSubmitted: "Application submitted successfully!",
+        msgCopied: "Message copied to clipboard.",
+        msgContactSaved: "Contact information saved.",
+        msgErrCurrPass: "Current password is incorrect.",
+        msgErrPassMismatch: "New password and confirmation do not match.",
+        msgCredsUpdated: "Admin email and password updated!",
+        msgStatusUpdated: "Application status updated.",
+        msgSlideAdded: "Slide added successfully.",
+        msgSlideDeleted: "Slide removed.",
+        msgMinSlide: "At least one slide is required.",
+        msgDemoReset: "Demo data restored.",
+        msgAppDeleted: "Application deleted.",
+        confirmDelTitle: "Delete Application?",
+        confirmDelDesc: "This action cannot be undone.",
+        btnCancel: "Cancel",
+        btnDelete: "Delete",
+        footerContactTitle: "For More Information & Inquiries",
+        footerContactSub: "Contact us via:",
+        lblFooterPhone: "Phone",
+        lblFooterTelegram: "Telegram",
+        lblFooterFbPage: "Facebook",
+        footerRights: "All rights reserved.",
+        footerNote: "Secure Digital Loan Registration System"
+      },
+      zh: {
+        brandName: "柬埔寨小额信贷",
+        brandTagline: "快捷可靠的贷款服务",
+        navHome: "首页",
+        navApply: "贷款申请",
+        menuTitle: "导航菜单",
+        lblLanguage: "语言",
+        adminLoginBtn: "管理员",
+        formTitle: "贷款申请表",
+        formSubtitle: "请在下方准确填写您的个人及财务信息。",
+        secPersonal: "一、个人信息",
+        lblFullName: "全名",
+        phFullName: "请输入您的全名",
+        lblPhone: "手机号码",
+        errPhone: "柬埔寨手机号码无效（例如：012345678 或 0961234567）。",
+        lblMarital: "婚姻状况",
+        optSelect: "-- 请选择 --",
+        maritalSingle: "单身",
+        maritalMarried: "已婚",
+        maritalWidow: "丧偶（女）",
+        maritalWidower: "丧偶（男）",
+        lblOccupation: "当前职业",
+        phOccupation: "例如：店主、教师、职员",
+        secLoan: "二、贷款申请详情",
+        lblCurrency: "币种",
+        lblAmount: "申请贷款金额",
+        secAddress: "三、现住址与住房情况",
+        lblVillage: "村",
+        lblCommune: "乡 / 分区",
+        lblDistrict: "县 / 区",
+        lblProvince: "省 / 直辖市 / 市",
+        lblHousing: "住房状况",
+        houseOwn: "自有房屋",
+        houseRent: "租住房屋",
+        roomRent: "租住房间",
+        btnSubmit: "提交申请",
+        modalSuccessTitle: "成功！",
+        modalSuccessDesc: "您的贷款申请已安全记录并成功提交。",
+        lblRegId: "登记编号",
+        btnClose: "关闭",
+        adminLoginTitle: "管理员登录",
+        adminLoginSub: "使用管理员邮箱和密码登录",
+        lblAdminEmail: "管理员邮箱",
+        lblPassword: "密码",
+        errLogin: "邮箱或密码错误。",
+        btnSignIn: "登录",
+        btnBackHome: "← 返回申请表",
+        dashTitle: "管理员控制台",
+        dashSubtitle: "管理贷款申请、首页轮播图、联系方式及管理员账号",
+        btnViewPortal: "查看前台",
+        btnLogout: "退出登录",
+        kpiTotal: "申请总数",
+        kpiPending: "待审核",
+        kpiApproved: "已批准",
+        kpiVolume: "贷款总额 (USD)",
+        tabApplications: "申请列表",
+        tabSlider: "轮播图管理",
+        tabSettings: "设置与联系",
+        phSearch: "搜索编号、姓名、电话、省份...",
+        filterAll: "全部状态",
+        stPending: "待审核",
+        stApproved: "已批准",
+        stRejected: "已拒绝",
+        btnExportExcel: "导出 Excel",
+        btnExportPdf: "导出 PDF",
+        btnResetDemo: "恢复演示数据",
+        thId: "编号",
+        thCustomer: "申请人",
+        thLoan: "申请金额",
+        thAddress: "地址与住房",
+        thStatus: "状态",
+        thActions: "操作",
+        sliderMgrTitle: "首页轮播图管理",
+        sliderMgrDesc: "添加或删除首页展示的轮播图片。",
+        lblSlideTitle: "轮播标题",
+        phSlideTitle: "例如：超低利率优惠",
+        lblSlideSubtitle: "副标题",
+        phSlideSub: "例如：24小时内快速审批",
+        lblSlideImg: "图片链接 (URL)",
+        btnAddSlide: "添加轮播图",
+        contactMgrTitle: "更多信息与联系方式设置",
+        contactMgrDesc: "设置联系电话、Telegram、Facebook 链接及 WhatsApp 专员号码。",
+        lblContactPhone: "联系电话",
+        lblContactTelegram: "Telegram（@用户名或号码）",
+        lblContactFacebook: "Facebook 链接 (URL)",
+        lblWaNumber: "信贷专员 WhatsApp 号码",
+        tgAutoTitle: "自动发送到 Telegram 机器人",
+        lblTgBotToken: "Telegram Bot Token",
+        lblTgChatId: "Telegram Chat ID",
+        msgTgSent: "申请已自动发送到 Telegram。",
+        msgTgNotConfigured: "尚未配置 Bot Token 或 Chat ID（已本地保存）。",
+        msgTgFailed: "自动发送到 Telegram 失败。",
+        gsAutoTitle: "自动发送到 Google Sheets",
+        lblGsWebAppUrl: "Google Apps Script Web App URL",
+        msgGsSent: "申请已自动发送到 Google Sheets。",
+        msgGsNotConfigured: "尚未配置 Google Sheets Web App URL（已本地保存）。",
+        msgGsInvalidUrl: "Google Sheets URL 无效（需以 https://script.google.com/macros/s/ 开头）。",
+        msgGsFailed: "自动发送到 Google Sheets 失败。",
+        btnSaveContact: "保存联系方式",
+        btnExportGithubHtml: "下载用于 GitHub 的 index.html",
+        githubSyncNote: "GitHub 提示：要让所有访问者看到您的新设置，请点击下载 index.html 并替换 GitHub 仓库中的旧文件。",
+        msgGithubHtmlExported: "已下载包含最新设置的 index.html！",
+        credMgrTitle: "修改管理员邮箱和密码",
+        credMgrDesc: "安全更新管理员登录邮箱和密码。",
+        lblCurrentPass: "当前密码",
+        lblNewEmail: "新管理员邮箱",
+        lblNewPass: "新密码",
+        lblConfirmPass: "确认新密码",
+        btnUpdateCreds: "更新邮箱和密码",
+        msgSubmitted: "申请提交成功！",
+        msgCopied: "信息已复制到剪贴板。",
+        msgContactSaved: "联系方式已保存。",
+        msgErrCurrPass: "当前密码错误。",
+        msgErrPassMismatch: "新密码与确认密码不一致。",
+        msgCredsUpdated: "管理员邮箱和密码已更新！",
+        msgStatusUpdated: "申请状态已更新。",
+        msgSlideAdded: "轮播图已添加。",
+        msgSlideDeleted: "轮播图已删除。",
+        msgMinSlide: "至少需要保留一张轮播图。",
+        msgDemoReset: "演示数据已恢复。",
+        msgAppDeleted: "申请已删除。",
+        confirmDelTitle: "删除此申请？",
+        confirmDelDesc: "此操作无法撤销。",
+        btnCancel: "取消",
+        btnDelete: "删除",
+        footerContactTitle: "了解更多信息与咨询",
+        footerContactSub: "请通过以下方式联系我们：",
+        lblFooterPhone: "电话",
+        lblFooterTelegram: "Telegram",
+        lblFooterFbPage: "Facebook",
+        footerRights: "保留所有权利。",
+        footerNote: "安全数字贷款注册系统"
+      }
+    };
+
+    let currentLang = localStorage.getItem(STORAGE_KEYS.LANG) || "km";
+    let currentSlideIndex = 0;
+    let slideTimer = null;
+    let pendingConfirmCallback = null;
+
+    function t(key) {
+      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
+    }
+
+    function showToast(message, isError = false) {
+      const box = document.getElementById("toastBox");
+      const icon = document.getElementById("toastIcon");
+      const text = document.getElementById("toastText");
+      if (!box || !icon || !text) return;
+
+      text.textContent = message;
+      icon.className = isError
+        ? "fa-solid fa-circle-exclamation text-rose-400"
+        : "fa-solid fa-circle-check text-emerald-400";
+
+      box.classList.remove("hidden");
+      clearTimeout(window.__toastTimeout);
+      window.__toastTimeout = setTimeout(() => {
+        box.classList.add("hidden");
+      }, 3000);
+    }
+
+    function openConfirmModal(title, desc, onConfirm) {
+      document.getElementById("confirmTitle").textContent = title;
+      document.getElementById("confirmDesc").textContent = desc;
+      pendingConfirmCallback = onConfirm;
+      document.getElementById("confirmModal").classList.remove("hidden");
+    }
+
+    function closeConfirmModal() {
+      pendingConfirmCallback = null;
+      document.getElementById("confirmModal").classList.add("hidden");
+    }
+
+    document.addEventListener("click", (e) => {
+      if (e.target && e.target.closest("#confirmActionBtn")) {
+        if (typeof pendingConfirmCallback === "function") {
+          pendingConfirmCallback();
+        }
+        closeConfirmModal();
+      }
+    });
+
+    function getApplications() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.APPS);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEYS.APPS, JSON.stringify(DEFAULT_APPS));
+          return [...DEFAULT_APPS];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...DEFAULT_APPS];
+      } catch (e) {
+        return [...DEFAULT_APPS];
+      }
+    }
+
+    function saveApplications(apps) {
+      localStorage.setItem(STORAGE_KEYS.APPS, JSON.stringify(apps));
+    }
+
+    function getSlides() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.SLIDES);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEYS.SLIDES, JSON.stringify(DEFAULT_SLIDES));
+          return [...DEFAULT_SLIDES];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : [...DEFAULT_SLIDES];
+      } catch (e) {
+        return [...DEFAULT_SLIDES];
+      }
+    }
+
+    function saveSlides(slides) {
+      localStorage.setItem(STORAGE_KEYS.SLIDES, JSON.stringify(slides));
+    }
+
+    function getSettings() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+        if (!raw) {
+          localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
+          return { ...DEFAULT_SETTINGS };
+        }
+        const parsed = JSON.parse(raw);
+        return {
+          ...DEFAULT_SETTINGS,
+          ...parsed,
+          contactPhone: parsed.contactPhone || DEFAULT_SETTINGS.contactPhone,
+          whatsappNumber: parsed.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
+          tgBotToken: parsed.tgBotToken || DEFAULT_SETTINGS.tgBotToken,
+          tgChatId: parsed.tgChatId || DEFAULT_SETTINGS.tgChatId
+        };
+      } catch (e) {
+        return { ...DEFAULT_SETTINGS };
+      }
+    }
+
+    function saveSettings(settings) {
+      localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+    }
+
+    function applyContactToFooter() {
+      const s = getSettings();
+      const cleanPhone = (s.contactPhone || "0964143168").replace(/[^0-9+]/g, "");
+      const phoneLink = document.getElementById("footerPhoneLink");
+      const phoneDisp = document.getElementById("footerPhoneDisplay");
+      if (phoneLink) phoneLink.href = `tel:${cleanPhone || "0964143168"}`;
+      if (phoneDisp) phoneDisp.textContent = s.contactPhone || "0964143168";
+
+      const rawTg = (s.contactTelegram || "@choek_sokun").trim();
+      const tgHandle = rawTg.startsWith("@") ? rawTg.slice(1) : rawTg;
+      const tgUrl = rawTg.startsWith("http")
+        ? rawTg
+        : /^[0-9+]+$/.test(tgHandle)
+          ? `https://t.me/+${tgHandle.replace(/^\+/, "")}`
+          : `https://t.me/${tgHandle}`;
+      const tgLink = document.getElementById("footerTelegramLink");
+      const tgDisp = document.getElementById("footerTelegramDisplay");
+      if (tgLink) tgLink.href = tgUrl;
+      if (tgDisp) tgDisp.textContent = rawTg.startsWith("@") || /^[0-9+]+$/.test(rawTg) ? rawTg : `@${tgHandle}`;
+
+      const fbLink = document.getElementById("footerFacebookLink");
+      const fbUrl = (s.contactFacebook || "https://www.facebook.com/share/1DqQoHd86Z/").trim();
+      if (fbLink) fbLink.href = fbUrl.startsWith("http") ? fbUrl : `https://${fbUrl}`;
+    }
+
+    function changeLanguage(lang) {
+      if (!I18N[lang]) lang = "km";
+      currentLang = lang;
+      localStorage.setItem(STORAGE_KEYS.LANG, lang);
+      document.documentElement.lang = lang;
+
+      const drawerSel = document.getElementById("drawerLangSelect");
+      if (drawerSel) drawerSel.value = lang;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = t(key);
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        el.placeholder = t(key);
+      });
+
+      document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-title");
+        el.title = t(key);
+      });
+
+      applyContactToFooter();
+
+      if (!document.getElementById("adminDashboardSection").classList.contains("hidden")) {
+        renderApplicationsTable();
+        renderAdminSlides();
+      }
+    }
+
+    function toggleDrawer(open) {
+      const drawer = document.getElementById("leftDrawer");
+      const backdrop = document.getElementById("drawerBackdrop");
+      if (!drawer || !backdrop) return;
+
+      if (open) {
+        backdrop.classList.remove("hidden");
+        drawer.classList.remove("-translate-x-full");
+      } else {
+        backdrop.classList.add("hidden");
+        drawer.classList.add("-translate-x-full");
+      }
+    }
+
+    function switchView(view) {
+      const customerView = document.getElementById("customerView");
+      const adminView = document.getElementById("adminView");
+      if (!customerView || !adminView) return;
+
+      if (view === "admin") {
+        customerView.classList.add("hidden");
+        adminView.classList.remove("hidden");
+        checkAdminAuthState();
+      } else {
+        adminView.classList.add("hidden");
+        customerView.classList.remove("hidden");
+        renderSlider();
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openAdminPortal() {
+      switchView("admin");
+    }
+
+    // Slider Logic
+    function renderSlider() {
+      const slides = getSlides();
+      const track = document.getElementById("sliderTrack");
+      const dots = document.getElementById("sliderDots");
+      if (!track || !dots) return;
+
+      if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
+      if (currentSlideIndex < 0) currentSlideIndex = slides.length - 1;
+
+      track.innerHTML = slides.map((s) => `
+        <div class="slide-item h-full">
+          <img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.title)}"
+            onerror="this.src='https://placehold.co/1200x500/1e3a8a/ffffff?text=MicroFinance+KH'"
+            class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/35 to-transparent flex flex-col justify-end p-5 sm:p-10 text-white">
+            <h2 class="text-lg sm:text-3xl font-bold max-w-2xl leading-snug">${escapeHtml(s.title)}</h2>
+            <p class="text-xs sm:text-base text-slate-200 mt-1 max-w-xl">${escapeHtml(s.subtitle)}</p>
+          </div>
+        </div>
+      `).join("");
+
+      dots.innerHTML = slides.map((_, idx) => `
+        <button type="button" onclick="goToSlide(${idx})" aria-label="Slide ${idx + 1}"
+          class="h-2.5 rounded-full transition-all ${idx === currentSlideIndex ? "w-7 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}"></button>
+      `).join("");
+
+      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+      restartSlideAutoPlay();
+    }
+
+    function goToSlide(index) {
+      const slides = getSlides();
+      if (!slides.length) return;
+      currentSlideIndex = (index + slides.length) % slides.length;
+      const track = document.getElementById("sliderTrack");
+      if (track) track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+      const dots = document.getElementById("sliderDots");
+      if (dots) {
+        Array.from(dots.children).forEach((dot, idx) => {
+          dot.className = `h-2.5 rounded-full transition-all ${idx === currentSlideIndex ? "w-7 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}`;
+        });
+      }
+      restartSlideAutoPlay();
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlideIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentSlideIndex - 1);
+    }
+
+    function restartSlideAutoPlay() {
+      clearInterval(slideTimer);
+      slideTimer = setInterval(() => {
+        const slides = getSlides();
+        if (slides.length > 1 && !document.getElementById("customerView").classList.contains("hidden")) {
+          currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+          const track = document.getElementById("sliderTrack");
+          if (track) track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+          const dots = document.getElementById("sliderDots");
+          if (dots) {
+            Array.from(dots.children).forEach((dot, idx) => {
+              dot.className = `h-2.5 rounded-full transition-all ${idx === currentSlideIndex ? "w-7 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}`;
+            });
+          }
+        }
+      }, 5000);
+    }
+
+    // Cambodian Phone Validation
+    function isValidCambodianPhone(rawPhone) {
+      const digits = (rawPhone || "").replace(/\D/g, "");
+      return /^0\d{8,9}$/.test(digits);
+    }
+
+    function generateRegId() {
+      const num = Math.floor(100000 + Math.random() * 900000);
+      return `LN-${num}`;
+    }
+
+    function formatAmount(amount, currency) {
+      const n = Number(amount) || 0;
+      if (currency === "KHR") {
+        return `${n.toLocaleString("en-US")} ៛`;
+      }
+      return `$${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+    }
+
+    // Automatically send new loan application to Telegram Bot API
+    async function sendApplicationToTelegramAuto(app, settings) {
+      const token = (settings.tgBotToken || DEFAULT_SETTINGS.tgBotToken || "").trim();
+      const chatId = (settings.tgChatId || DEFAULT_SETTINGS.tgChatId || "").trim();
+      if (!token || !chatId) {
+        showToast(t("msgTgNotConfigured"));
+        return;
+      }
+
+      const messageText = [
+        "📌 ពាក្យស្នើសុំប្រាក់កម្ចីថ្មី / New Loan Application",
+        `🆔 ID: ${app.regId}`,
+        `👤 ឈ្មោះ / Name: ${app.fullName}`,
+        `📞 ទូរស័ព្ទ / Phone: ${app.phone}`,
+        `💍 ស្ថានភាព / Marital: ${localizeMarital(app.maritalStatus)}`,
+        `💼 មុខរបរ / Occupation: ${app.occupation}`,
+        `💰 ទឹកប្រាក់ / Amount: ${formatAmount(app.loanAmount, app.currency)}`,
+        `🏠 លំនៅដ្ឋាន / Housing: ${localizeHousing(app.housingStatus)}`,
+        `📍 អាសយដ្ឋាន / Address: ${app.village}, ${app.commune}, ${app.district}, ${app.province}`,
+        `🕒 កាលបរិច្ឆេទ / Date: ${new Date(app.createdAt).toLocaleString()}`
+      ].join("\n");
+
+      const endpoint = `https://api.telegram.org/bot${encodeURIComponent(token)}/sendMessage`;
+      const payload = JSON.stringify({
+        chat_id: chatId,
+        text: messageText
+      });
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+          showToast(t("msgTgSent"));
+        } else {
+          showToast(t("msgTgFailed"), true);
+        }
+      } catch (err) {
+        try {
+          await fetch(endpoint, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: payload
+          });
+          showToast(t("msgTgSent"));
+        } catch (fallbackErr) {
+          showToast(t("msgTgFailed"), true);
+        }
+      }
+    }
+
+    // Automatically send new loan application to Google Sheets via Apps Script Web App URL
+    async function sendApplicationToGoogleSheetsAuto(app, settings) {
+      const url = (settings.gsWebAppUrl || "").trim();
+      if (!url) {
+        return;
+      }
+
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[a-zA-Z0-9_-]+\/exec/i.test(url)) {
+        showToast(t("msgGsInvalidUrl"), true);
+        return;
+      }
+
+      const payload = {
+        regId: app.regId,
+        fullName: app.fullName,
+        phone: app.phone,
+        maritalStatus: app.maritalStatus,
+        occupation: app.occupation,
+        currency: app.currency,
+        loanAmount: Number(app.loanAmount) || 0,
+        village: app.village,
+        commune: app.commune,
+        district: app.district,
+        province: app.province,
+        housingStatus: app.housingStatus,
+        status: app.status,
+        createdAt: app.createdAt
+      };
+
+      try {
+        const formBody = new URLSearchParams();
+        Object.entries(payload).forEach(([k, v]) => {
+          formBody.append(k, String(v ?? ""));
+        });
+        formBody.append("payload", JSON.stringify(payload));
+
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          body: formBody
+        });
+        showToast(t("msgGsSent"));
+      } catch (err) {
+        showToast(t("msgGsFailed"), true);
+      }
+    }
+
+    async function handleLoanSubmit(event) {
+      event.preventDefault();
+      const phoneInput = document.getElementById("phone");
+      const phoneErr = document.getElementById("phoneError");
+
+      if (!isValidCambodianPhone(phoneInput.value)) {
+        phoneErr.classList.remove("hidden");
+        phoneInput.focus();
+        return;
+      }
+      phoneErr.classList.add("hidden");
+
+      const submitBtn = document.getElementById("submitBtn");
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const regId = generateRegId();
+        const newApp = {
+          regId,
+          fullName: document.getElementById("fullName").value.trim(),
+          phone: phoneInput.value.trim(),
+          maritalStatus: document.getElementById("maritalStatus").value,
+          occupation: document.getElementById("occupation").value.trim(),
+          currency: document.getElementById("currency").value,
+          loanAmount: Number(document.getElementById("loanAmount").value),
+          village: document.getElementById("village").value.trim(),
+          commune: document.getElementById("commune").value.trim(),
+          district: document.getElementById("district").value.trim(),
+          province: document.getElementById("province").value.trim(),
+          housingStatus: document.getElementById("housingStatus").value,
+          status: "Pending",
+          createdAt: new Date().toISOString()
+        };
+
+        const apps = getApplications();
+        apps.unshift(newApp);
+        saveApplications(apps);
+
+        const settings = getSettings();
+
+        document.getElementById("loanForm").reset();
+        const successModal = document.getElementById("successModal");
+        const successTitle = successModal ? successModal.querySelector('[data-i18n="modalSuccessTitle"]') : null;
+        if (successTitle) {
+          successTitle.classList.remove("success-title-pop");
+          void successTitle.offsetWidth;
+          successTitle.classList.add("success-title-pop");
+        }
+        if (successModal) successModal.classList.remove("hidden");
+        showToast(t("msgSubmitted"));
+
+        sendApplicationToTelegramAuto(newApp, settings);
+        sendApplicationToGoogleSheetsAuto(newApp, settings);
+      } catch (err) {
+        showToast("Error submitting application", true);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    }
+
+    function closeSuccessModal() {
+      document.getElementById("successModal").classList.add("hidden");
+    }
+
+    function checkAdminAuthState() {
+      const isLoggedIn = localStorage.getItem(STORAGE_KEYS.ADMIN_AUTH) === "true";
+      const loginSec = document.getElementById("adminLoginSection");
+      const dashSec = document.getElementById("adminDashboardSection");
+      if (!loginSec || !dashSec) return;
+
+      if (isLoggedIn) {
+        loginSec.classList.add("hidden");
+        dashSec.classList.remove("hidden");
+        refreshAdminDashboard();
+      } else {
+        dashSec.classList.add("hidden");
+        loginSec.classList.remove("hidden");
+      }
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById("adminEmailInput").value.trim().toLowerCase();
+      const pass = document.getElementById("adminPassInput").value;
+      const settings = getSettings();
+
+      if (email === (settings.adminEmail || "").toLowerCase() && pass === settings.adminPass) {
+        document.getElementById("loginError").classList.add("hidden");
+        localStorage.setItem(STORAGE_KEYS.ADMIN_AUTH, "true");
+        document.getElementById("adminLoginForm").reset();
+        checkAdminAuthState();
+      } else {
+        document.getElementById("loginError").classList.remove("hidden");
+      }
+    }
+
+    function handleAdminLogout() {
+      localStorage.removeItem(STORAGE_KEYS.ADMIN_AUTH);
+      checkAdminAuthState();
+    }
+
+    function switchAdminTab(tab) {
+      const tabs = ["applications", "slider", "settings"];
+      tabs.forEach((name) => {
+        const btn = document.getElementById(`tab${name.charAt(0).toUpperCase() + name.slice(1)}`);
+        const panel = document.getElementById(`panel${name.charAt(0).toUpperCase() + name.slice(1)}`);
+        if (btn && panel) {
+          if (name === tab) {
+            btn.className = "px-5 py-2.5 rounded-t-xl font-semibold text-sm bg-blue-700 text-white transition";
+            panel.classList.remove("hidden");
+          } else {
+            btn.className = "px-5 py-2.5 rounded-t-xl font-semibold text-sm bg-white text-slate-600 hover:text-slate-900 transition";
+            panel.classList.add("hidden");
+          }
+        }
+      });
+
+      if (tab === "applications") renderApplicationsTable();
+      if (tab === "slider") renderAdminSlides();
+      if (tab === "settings") populateSettingsInputs();
+    }
+
+    function refreshAdminDashboard() {
+      updateKPIs();
+      renderApplicationsTable();
+      renderAdminSlides();
+    }
+
+    function updateKPIs() {
+      const apps = getApplications();
+      const total = apps.length;
+      const pending = apps.filter((a) => a.status === "Pending").length;
+      const approved = apps.filter((a) => a.status === "Approved").length;
+      const usdVolume = apps.reduce((sum, a) => {
+        if (a.currency === "USD") return sum + (Number(a.loanAmount) || 0);
+        if (a.currency === "KHR") return sum + ((Number(a.loanAmount) || 0) / 4000);
+        return sum;
+      }, 0);
+
+      document.getElementById("kpiTotalCount").textContent = total;
+      document.getElementById("kpiPendingCount").textContent = pending;
+      document.getElementById("kpiApprovedCount").textContent = approved;
+      document.getElementById("kpiVolumeUsd").textContent = `$${Math.round(usdVolume).toLocaleString("en-US")}`;
+    }
+
+    function localizeMarital(val) {
+      const map = {
+        Single: t("maritalSingle"),
+        Married: t("maritalMarried"),
+        Widow: t("maritalWidow"),
+        Widower: t("maritalWidower")
+      };
+      return map[val] || val;
+    }
+
+    function localizeHousing(val) {
+      const map = {
+        "Own House": t("houseOwn"),
+        "Renting a House": t("houseRent"),
+        "Renting a Room": t("roomRent")
+      };
+      return map[val] || val;
+    }
+
+    function renderApplicationsTable() {
+      const tbody = document.getElementById("applicationsTableBody");
+      if (!tbody) return;
+
+      const q = (document.getElementById("searchInput")?.value || "").trim().toLowerCase();
+      const statusFilter = document.getElementById("statusFilter")?.value || "ALL";
+
+      const apps = getApplications().filter((app) => {
+        const matchesStatus = statusFilter === "ALL" || app.status === statusFilter;
+        const hay = `${app.regId} ${app.fullName} ${app.phone} ${app.occupation} ${app.village} ${app.commune} ${app.district} ${app.province}`.toLowerCase();
+        const matchesQuery = !q || hay.includes(q);
+        return matchesStatus && matchesQuery;
+      });
+
+      if (!apps.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">No records found</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = apps.map((app) => {
+        const badgeStyle =
+          app.status === "Approved"
+            ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+            : app.status === "Rejected"
+              ? "bg-rose-100 text-rose-800 border-rose-200"
+              : "bg-amber-100 text-amber-800 border-amber-200";
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition">
+            <td class="py-3.5 px-3 font-mono font-semibold text-blue-700 whitespace-nowrap">${escapeHtml(app.regId)}</td>
+            <td class="py-3.5 px-3">
+              <div class="font-bold text-slate-900">${escapeHtml(app.fullName)}</div>
+              <div class="text-xs text-slate-500">${escapeHtml(app.phone)} • ${escapeHtml(localizeMarital(app.maritalStatus))}</div>
+              <div class="text-xs text-slate-500">${escapeHtml(app.occupation)}</div>
+            </td>
+            <td class="py-3.5 px-3 font-bold text-slate-900 whitespace-nowrap">
+              ${escapeHtml(formatAmount(app.loanAmount, app.currency))}
+            </td>
+            <td class="py-3.5 px-3 text-xs text-slate-600">
+              <div>${escapeHtml(app.village)}, ${escapeHtml(app.commune)}</div>
+              <div>${escapeHtml(app.district)}, ${escapeHtml(app.province)}</div>
+              <div class="font-medium text-blue-700 mt-0.5">${escapeHtml(localizeHousing(app.housingStatus))}</div>
+            </td>
+            <td class="py-3.5 px-3 whitespace-nowrap">
+              <select onchange="updateAppStatus('${escapeHtml(app.regId)}', this.value)"
+                class="text-xs font-semibold px-2.5 py-1 rounded-lg border cursor-pointer ${badgeStyle}">
+                <option value="Pending" ${app.status === "Pending" ? "selected" : ""}>${t("stPending")}</option>
+                <option value="Approved" ${app.status === "Approved" ? "selected" : ""}>${t("stApproved")}</option>
+                <option value="Rejected" ${app.status === "Rejected" ? "selected" : ""}>${t("stRejected")}</option>
+              </select>
+            </td>
+            <td class="py-3.5 px-3 text-right whitespace-nowrap">
+              <button type="button" onclick="deleteApplication('${escapeHtml(app.regId)}')"
+                class="p-2 rounded-lg text-rose-600 hover:bg-rose-50 transition" title="${t("btnDelete")}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function updateAppStatus(regId, newStatus) {
+      const apps = getApplications().map((a) => (a.regId === regId ? { ...a, status: newStatus } : a));
+      saveApplications(apps);
+      updateKPIs();
+      renderApplicationsTable();
+      showToast(t("msgStatusUpdated"));
+    }
+
+    function deleteApplication(regId) {
+      openConfirmModal(t("confirmDelTitle"), t("confirmDelDesc"), () => {
+        const apps = getApplications().filter((a) => a.regId !== regId);
+        saveApplications(apps);
+        updateKPIs();
+        renderApplicationsTable();
+        showToast(t("msgAppDeleted"));
+      });
+    }
+
+    function resetDemoData() {
+      saveApplications([...DEFAULT_APPS]);
+      updateKPIs();
+      renderApplicationsTable();
+      showToast(t("msgDemoReset"));
+    }
+
+    function exportToExcel() {
+      const apps = getApplications();
+      const headers = [
+        "Reg ID",
+        "Full Name",
+        "Phone",
+        "Marital Status",
+        "Occupation",
+        "Currency",
+        "Loan Amount",
+        "Village",
+        "Commune",
+        "District",
+        "Province",
+        "Housing Status",
+        "Status",
+        "Created At"
+      ];
+      const tableRows = apps.map((a) => `
+        <tr>
+          <td>${escapeHtml(a.regId)}</td>
+          <td>${escapeHtml(a.fullName)}</td>
+          <td>'${escapeHtml(a.phone)}</td>
+          <td>${escapeHtml(localizeMarital(a.maritalStatus))}</td>
+          <td>${escapeHtml(a.occupation)}</td>
+          <td>${escapeHtml(a.currency)}</td>
+          <td>${escapeHtml(a.loanAmount)}</td>
+          <td>${escapeHtml(a.village)}</td>
+          <td>${escapeHtml(a.commune)}</td>
+          <td>${escapeHtml(a.district)}</td>
+          <td>${escapeHtml(a.province)}</td>
+          <td>${escapeHtml(localizeHousing(a.housingStatus))}</td>
+          <td>${escapeHtml(a.status)}</td>
+          <td>${escapeHtml(new Date(a.createdAt).toLocaleString())}</td>
+        </tr>
+      `).join("");
+
+      const excelHtml = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8" />
+        </head>
+        <body>
+          <table border="1">
+            <thead>
+              <tr>${headers.map((h) => `<th style="background:#1e3a8a;color:#ffffff;">${escapeHtml(h)}</th>`).join("")}</tr>
+            </thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      try {
+        const blob = new Blob(["\uFEFF" + excelHtml], { type: "application/vnd.ms-excel;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `loan_applications_${new Date().toISOString().slice(0, 10)}.xls`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (e) {
+        const dataUri = "data:application/vnd.ms-excel;charset=utf-8," + encodeURIComponent("\uFEFF" + excelHtml);
+        const link = document.createElement("a");
+        link.href = dataUri;
+        link.download = `loan_applications_${new Date().toISOString().slice(0, 10)}.xls`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    function openPdfPrintView(apps) {
+      const rowsHtml = apps.map((a) => `
+        <tr>
+          <td>${escapeHtml(a.regId)}</td>
+          <td>${escapeHtml(a.fullName)}</td>
+          <td>${escapeHtml(a.phone)}</td>
+          <td>${escapeHtml(a.occupation)}</td>
+          <td>${escapeHtml(formatAmount(a.loanAmount, a.currency))}</td>
+          <td>${escapeHtml(`${a.village}, ${a.commune}, ${a.district}, ${a.province}`)}</td>
+          <td>${escapeHtml(localizeHousing(a.housingStatus))}</td>
+          <td>${escapeHtml(a.status)}</td>
+        </tr>
+      `).join("");
+
+      const docContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8" />
+          <title>Loan Applications Report</title>
+          <style>
+            body { font-family: 'Kantumruy Pro', 'Inter', sans-serif; padding: 24px; color: #0f172a; }
+            h2 { margin: 0 0 6px; font-size: 20px; }
+            p { margin: 0 0 16px; font-size: 12px; color: #475569; }
+            table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+            th { background: #f1f5f9; font-weight: 700; }
+            @media print { body { padding: 0; } }
+          </style>
+        </head>
+        <body>
+          <h2>Loan Applications Report</h2>
+          <p>Generated: ${new Date().toLocaleString()} | Total: ${apps.length}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Reg ID</th>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Occupation</th>
+                <th>Amount</th>
+                <th>Address</th>
+                <th>Housing</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+          <script>
+            window.onload = function() {
+              setTimeout(function() { window.print(); }, 200);
+            };
+          <\/script>
+        </body>
+        </html>
+      `;
+
+      const printWin = window.open("", "_blank", "width=960,height=700");
+      if (printWin) {
+        printWin.document.open();
+        printWin.document.write(docContent);
+        printWin.document.close();
+        return;
+      }
+
+      const iframe = document.createElement("iframe");
+      iframe.style.position = "fixed";
+      iframe.style.right = "0";
+      iframe.style.bottom = "0";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "0";
+      document.body.appendChild(iframe);
+      const frameDoc = iframe.contentWindow || iframe.contentDocument;
+      if (frameDoc) {
+        frameDoc.document.open();
+        frameDoc.document.write(docContent);
+        frameDoc.document.close();
+        setTimeout(() => {
+          frameDoc.focus();
+          frameDoc.print();
+          setTimeout(() => {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 1500);
+        }, 250);
+      }
+    }
+
+    function exportToPDF() {
+      const apps = getApplications();
+      openPdfPrintView(apps);
+    }
+
+    // Slider Admin CRUD
+    function renderAdminSlides() {
+      const container = document.getElementById("adminSlidesList");
+      if (!container) return;
+      const slides = getSlides();
+
+      container.innerHTML = slides.map((s) => `
+        <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 flex flex-col">
+          <img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.title)}"
+            onerror="this.src='https://placehold.co/600x300/1e3a8a/ffffff?text=Slide+Image'"
+            class="w-full h-36 object-cover">
+          <div class="p-3.5 flex-grow flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-sm text-slate-900">${escapeHtml(s.title)}</h4>
+              <p class="text-xs text-slate-500 mt-0.5">${escapeHtml(s.subtitle)}</p>
+            </div>
+            <button type="button" onclick="deleteSlide('${escapeHtml(s.id)}')"
+              class="mt-3 w-full py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold transition">
+              <i class="fa-solid fa-trash mr-1"></i> ${t("btnDelete")}
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function handleAddSlide(event) {
+      event.preventDefault();
+      const title = document.getElementById("slideTitleInput").value.trim();
+      const subtitle = document.getElementById("slideSubtitleInput").value.trim();
+      const image = document.getElementById("slideImageInput").value.trim();
+
+      const slides = getSlides();
+      slides.push({
+        id: `slide-${Date.now()}`,
+        title,
+        subtitle,
+        image
+      });
+      saveSlides(slides);
+      document.getElementById("addSlideForm").reset();
+      renderAdminSlides();
+      renderSlider();
+      showToast(t("msgSlideAdded"));
+    }
+
+    function deleteSlide(id) {
+      const slides = getSlides();
+      if (slides.length <= 1) {
+        showToast(t("msgMinSlide"), true);
+        return;
+      }
+      const filtered = slides.filter((s) => s.id !== id);
+      saveSlides(filtered);
+      renderAdminSlides();
+      renderSlider();
+      showToast(t("msgSlideDeleted"));
+    }
+
+    // Contact & Admin Credentials Settings
+    function populateSettingsInputs() {
+      const s = getSettings();
+      if (document.getElementById("contactPhoneInput")) {
+        document.getElementById("contactPhoneInput").value = s.contactPhone || "";
+        document.getElementById("contactTelegramInput").value = s.contactTelegram || "";
+        document.getElementById("contactFacebookInput").value = s.contactFacebook || "";
+        document.getElementById("waNumberInput").value = s.whatsappNumber || "";
+        document.getElementById("tgBotTokenInput").value = s.tgBotToken || "";
+        document.getElementById("tgChatIdInput").value = s.tgChatId || "";
+        document.getElementById("gsWebAppUrlInput").value = s.gsWebAppUrl || "";
+      }
+      if (document.getElementById("newAdminEmailInput")) {
+        document.getElementById("newAdminEmailInput").value = s.adminEmail || "";
+      }
+    }
+
+    function handleSaveContactSettings(event) {
+      event.preventDefault();
+      const s = getSettings();
+      s.contactPhone = document.getElementById("contactPhoneInput").value.trim();
+      s.contactTelegram = document.getElementById("contactTelegramInput").value.trim();
+      s.contactFacebook = document.getElementById("contactFacebookInput").value.trim();
+      s.whatsappNumber = document.getElementById("waNumberInput").value.trim();
+      s.tgBotToken = document.getElementById("tgBotTokenInput").value.trim();
+      s.tgChatId = document.getElementById("tgChatIdInput").value.trim();
+      s.gsWebAppUrl = document.getElementById("gsWebAppUrlInput").value.trim();
+
+      saveSettings(s);
+      applyContactToFooter();
+      showToast(t("msgContactSaved"));
+    }
+
+    // Export standalone index.html with current Settings & Slides baked in for GitHub Pages
+    function downloadUpdatedHtmlForGitHub() {
+      const currentSettings = getSettings();
+      const currentSlides = getSlides();
+
+      let fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const settingsRegex = /const DEFAULT_SETTINGS = \{[\s\S]*?\};/;
+      const slidesRegex = /const DEFAULT_SLIDES = \[[\s\S]*?\];/;
+
+      fullHtml = fullHtml.replace(
+        settingsRegex,
+        `const DEFAULT_SETTINGS = ${JSON.stringify(currentSettings, null, 6)};`
+      );
+      fullHtml = fullHtml.replace(
+        slidesRegex,
+        `const DEFAULT_SLIDES = ${JSON.stringify(currentSlides, null, 6)};`
+      );
+
+      const blob = new Blob([fullHtml], { type: "text/html;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "index.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast(t("msgGithubHtmlExported"));
+    }
+
+    function handleChangeCredentials(event) {
+      event.preventDefault();
+      const currentPass = document.getElementById("currentPassInput").value;
+      const newEmail = document.getElementById("newAdminEmailInput").value.trim();
+      const newPass = document.getElementById("newPassInput").value;
+      const confirmPass = document.getElementById("confirmPassInput").value;
+
+      const s = getSettings();
+      if (currentPass !== s.adminPass) {
+        showToast(t("msgErrCurrPass"), true);
+        return;
+      }
+      if (newPass !== confirmPass) {
+        showToast(t("msgErrPassMismatch"), true);
+        return;
+      }
+
+      s.adminEmail = newEmail;
+      s.adminPass = newPass;
+      saveSettings(s);
+
+      document.getElementById("currentPassInput").value = "";
+      document.getElementById("newPassInput").value = "";
+      document.getElementById("confirmPassInput").value = "";
+      showToast(t("msgCredsUpdated"));
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    // Initialize Application
+    window.addEventListener("DOMContentLoaded", () => {
+      getApplications();
+      getSlides();
+      getSettings();
+      changeLanguage(currentLang);
+      switchView("home");
+    });
+  </script>
+</body>
+</html>
